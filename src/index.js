@@ -1,3 +1,5 @@
+import { isValidFuncName } from './utils'
+
 class _injector {
   constructor() {
     this.dependencies = {}
@@ -8,8 +10,13 @@ class _injector {
   get(svcName) {
     return this.dependencies[svcName]
   }
-  register(svc) {
-    this.dependencies[svc.constructor.name] = svc
+  register(svc, name) {
+    name = name || svc.constructor.name
+    if (isValidFuncName(name)) {
+      this.dependencies[name] = svc
+    } else {
+      throw new Error(`${name} is not a valid name`)
+    }
   }
   resolve(deps, func, scope) {
     scope = scope || {}

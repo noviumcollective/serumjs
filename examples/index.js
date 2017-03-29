@@ -1,19 +1,20 @@
-import Resolver, { Service } from '../lib'
+import Resolver, { Service } from '../src'
 
-class NotificationService extends Service {
+class NotificationService {
   notify(from, msg) {
     console.log(`[${from}]:`, msg)
   }
 }
 Resolver.register(new NotificationService())
 
-class RouterService extends Service {
+class RouterService {
   goTo(path) {
     console.log(`Routing to ${path}`)
   }
 }
 Resolver.register(new RouterService())
 
+// inject to a Service class
 class Cat extends Service {
   constructor() {
     super('NotificationService', 'RouterService')
@@ -40,6 +41,7 @@ class Kittie extends Service {
 const chuckles = new Kittie()
 chuckles.makeACuteFace()
 
+// inject to a function
 const doSomething = Resolver.resolve(['NotificationService', 'RouterService'], function(additionalParams) {
   this.NotificationService.notify('Jim', 'Hey, is it you Nick?')
   this.RouterService.goTo('https://novium.io')
