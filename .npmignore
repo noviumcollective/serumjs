@@ -1,0 +1,6 @@
+test
+src
+node_modules
+.eslintrc
+.swp
+.DS_Store
