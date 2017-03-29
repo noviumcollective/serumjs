@@ -17,21 +17,24 @@ Resolver.register(new DeliveryService()) //<-- note the "new" keyword
 
 Then inject your dependencies by inheriting the `Service` class like so:
 ```JavaScript
-import ShoppingCard extends Service {
+import ShoppingCart extends Service {
    constructor() {
       super('DeliveryService')
    }
 
    checkOut() {
-      this.DeliveryService.deliver('🍪🍪🍪🍪', 4, 'Nick's home address')
+      this.DeliveryService.deliver('🍪🍪🍪🍪', 4, 'Nick\'s home address')
    }
 }
+
+const ShoppingCart = new ShoppingCart()
+ShoppingCart.checkOut()
 ```
 
 Alternatively, you may also inject dependencies in functions using `Resolver.resolve`:
 ```JavaScript
 const doSomething = Resolver.resolve(['DeliveryService'], function(additionalParams) {
-   this.DeliveryService.deliver('🎮', 2, 'Jim's work address')
+   this.DeliveryService.deliver('🎮', 2, 'Jim\'s work address')
    console.log(additionalParams)
 })
 
