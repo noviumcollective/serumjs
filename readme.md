@@ -43,10 +43,6 @@ doSomething(42)
 
 That's it!
 
-## Motivation
-
-This library can be used in es5 and ES6 projects
-
 ## Installation
 
 Install with `npm install serumjs --save` or `yarn add serumjs`
