@@ -7,8 +7,8 @@ Using SerumJS is very straightforward. Write your services and register live ins
 import Resolver, { Service } from 'serumjs'
 
 class DeliveryService {
-   deliver(item, address) {
-      ....
+   deliver(item, qty, address) {
+      console.log(`Delivering ${qty} ${item}s to ${address}`)
    }
 }
 
@@ -23,7 +23,7 @@ import ShoppingCard extends Service {
    }
 
    checkOut() {
-      this.DeliveryService.delivery('🍪🍪🍪🍪', 'To home address')
+      this.DeliveryService.deliver('🍪🍪🍪🍪', 4, 'Nick's home address')
    }
 }
 ```
@@ -31,7 +31,7 @@ import ShoppingCard extends Service {
 Alternatively, you may also inject dependencies in functions using `Resolver.resolve`:
 ```JavaScript
 const doSomething = Resolver.resolve(['DeliveryService'], function(additionalParams) {
-   this.DeliveryService.deliver('🎮', 'To my work address')
+   this.DeliveryService.deliver('🎮', 2, 'Jim's work address')
    console.log(additionalParams)
 })
 
