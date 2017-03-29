@@ -1,6 +1,6 @@
 {
   "name": "serumjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "lib/index.js",
   "dependencies": {
@@ -26,10 +26,9 @@
   "description": "A super light-weight dependency injection module written in ES6, inspired by Krasimir Tsonev's blog post http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/noviumcollective/serum.git"
+    "url": "git+https://github.com/noviumcollective/serumjs.git"
   },
   "keywords": [
-    "serum",
     "serumjs",
     "dependency",
     "injection",
@@ -38,7 +37,7 @@
   ],
   "author": "Nicholas Credli <nicholas.credli@gmail.com>",
   "bugs": {
-    "url": "https://github.com/noviumcollective/serum/issues"
+    "url": "https://github.com/noviumcollective/serumjs/issues"
   },
-  "homepage": "https://github.com/noviumcollective/serum#readme"
+  "homepage": "https://github.com/noviumcollective/serumjs#readme"
 }
