@@ -17,7 +17,7 @@ Resolver.register(new DeliveryService()) //<-- note the "new" keyword
 
 Then inject your dependencies by inheriting the `Service` class like so:
 ```JavaScript
-import ShoppingCart extends Service {
+class ShoppingCart extends Service {
    constructor() {
       super('DeliveryService')
    }
