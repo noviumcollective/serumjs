@@ -1,41 +1,41 @@
-*💉*SerumJS💉** is a lightweight dependency injection module written in es6, inspired by Krasimir Tsonev's blog post http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript
+**SerumJS** is a lightweight dependency injection module written in es6, inspired by Krasimir Tsonev's blog post http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript
 
 ## Usage
 
 Using SerumJS is very straightforward. Write your services and register live instances with Resolver:
 ```JavaScript
-   import Resolver, { Service } from 'serumjs'
-   
-   class DeliveryService {
-     deliver(item, address) {
-       ....
-     }
-   }
+import Resolver, { Service } from 'serumjs'
 
-   Resolver.register(new DeliveryService()) //<-- note the "new" keyword
+class DeliveryService {
+   deliver(item, address) {
+      ....
+   }
+}
+
+Resolver.register(new DeliveryService()) //<-- note the "new" keyword
 ```
 
 Then inject your dependencies by inheriting the `Service` class like so:
 ```JavaScript
-   import ShoppingCard extends Service {
-     constructor() {
+import ShoppingCard extends Service {
+   constructor() {
       super('DeliveryService')
-     }
-
-     checkOut() {
-      this.DeliveryService.delivery('🍪🍪🍪🍪', 'My home address')
-     }
    }
+
+   checkOut() {
+      this.DeliveryService.delivery('🍪🍪🍪🍪', 'To home address')
+   }
+}
 ```
 
 Alternatively, you may also inject dependencies in functions using `Resolver.resolve`:
 ```JavaScript
-   const doSomething = Resolver.resolve(['DeliveryService'], function(additionalParams) {
-    this.DeliveryService.deliver('🎮', 'My work address')
-    console.log(additionalParams)
-   })
+const doSomething = Resolver.resolve(['DeliveryService'], function(additionalParams) {
+   this.DeliveryService.deliver('🎮', 'To my work address')
+   console.log(additionalParams)
+})
 
-   doSomething(42)
+doSomething(42)
 ```
 
 That's it!
@@ -51,13 +51,14 @@ Install with `npm install serumjs --save` or `yarn add serumjs`
 ## API Reference
 
 The Resolver is a singleton that provides `get`, `getAll`, `register`, and `resolve` functions.
-Check out the `./examples` folder for more examples on how to use the `Resolver` in various scenarios.
+
+Check out the [./examples/index.js](https://github.com/noviumcollective/serumjs/blob/master/examples/index.js) for more examples on how to use the `Resolver` in various scenarios.
 
 ## Contributors
 
-Created and maintained by Novium
-- Nicholas Credli [credli](https://github.com/credli).
-- Jamal Mheidly [jmheidly](https://github.com/jmheidly).
+Created and maintained at Novium by:
+- Nicholas Credli [credli](https://github.com/credli)
+- Jamal Mheidly [jmheidly](https://github.com/jmheidly)
 
 ## License
 
