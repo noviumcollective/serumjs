@@ -1,6 +1,5 @@
 import Resolver, { Service } from '../lib'
 import { MockService, AnotherMockService } from './fixtures'
-import sinon from 'sinon'
 
 describe('Resolver tests', () => {
   afterEach(() => {
