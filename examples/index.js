@@ -1,4 +1,4 @@
-import Resolver, { Service } from '../src'
+import Resolver, { Service } from '../lib'
 
 class NotificationService {
   notify(from, msg) {
