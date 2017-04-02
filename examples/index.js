@@ -21,8 +21,8 @@ class Cat extends Service {
   }
 
   meow() {
-    this.NotificationService.notify('Cat', 'Meow Meow!')
-    this.RouterService.goTo('http://www.lolcats.com/')
+    this.$NotificationService.notify('Cat', 'Meow Meow!')
+    this.$RouterService.goTo('http://www.lolcats.com/')
   }
 }
 Resolver.register(new Cat())
@@ -33,8 +33,8 @@ class Kittie extends Service {
   }
 
   makeACuteFace() {
-    this.Cat.meow()
-    this.NotificationService.notify('Kittie', 'Purrrrrr')
+    this.$Cat.meow()
+    this.$NotificationService.notify('Kittie', 'Purrrrrr')
   }
 }
 

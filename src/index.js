@@ -53,6 +53,11 @@ export class Injector {
     return Object.keys(this.dependencies).find(key => this.dependencies[key] === svc)
   }
 
+  hasDependency(dep) {
+    if (typeof dep !== 'string') throw new Error('Invalid argument passed for hasDependency(), expected a string')
+    return (this.dependencies[dep])
+  }
+
   register(svc) {
     if(svc instanceof Array)
       svc.map(s => {
@@ -92,44 +97,76 @@ export class Injector {
   unregisterAll() {
     Object.keys(this.dependencies).forEach(key => { delete this.dependencies[key] })
   }
-
-  resolve(deps, func, scope) {
+  
+  resolve(args, func, scope) {
     scope = scope || {}
-    if (typeof deps === 'string') deps = [deps]
-    if(deps instanceof Array)
-      deps.map(d => {
-        if (this.dependencies[d])
-          scope[d] = this.get(d)
-        else
-          throw new Error(`Cannot resolve [${d}]`)
-      })
-    else
-      throw new Error(`Dependencies are not provided to Resolver, pass in a service name or an array of service names as the first argument of resolve function`)
+    let deps = []
+    // prepare for injectables
+    if (typeof args === 'string' && this.hasDependency(args)) {
+      deps.push(args)
+    }
+    else if (typeof args === 'object' && !(args instanceof Array) && (args instanceof Service)) {
+      deps.push(this.getServiceName(deps))
+    } else if (args instanceof Array) {
+      deps = [...args]
+    }
+
+    deps.map(d => {
+      if (typeof d !== 'string') return;
+      if (this.hasDependency(d)) {
+        if (scope.hasOwnProperty(d)) throw new Error(`Cannot reassign [${d}] on service`)
+        scope[d] = this.get(d)
+      }
+      else throw new Error(`Cannot resolve [${d}]`)
+    })
+
     return function() {
       return func.apply(scope || {}, Array.prototype.slice.call(arguments, 0))
     }
   }
 }
 
-const _injectorInstance = new Injector()
+let _injectorInstance = null;
+function getSharedResolver() {
+  if(!_injectorInstance) {
+    _injectorInstance = new Injector()
+  }
+  return _injectorInstance
+}
+
+export default getSharedResolver();
 
 export class Service {
-  constructor() {
-    if (new.target === Service) throw new TypeError("Cannot instantiate [Service] instances directly")
-    this._resolver = _injectorInstance;
-    this.name = this.constructor.name
-    if (arguments.length > 0) {
-      const resolvables = Array.prototype.slice.call((arguments[0] instanceof Array) ? arguments[0] : arguments)
+  constructor(...args) {
+    if (new.target === Service) throw new TypeError('Cannot instantiate [Service] instances directly')
+    Object.defineProperties(this, {
+      '$name': {
+        enumerable: true,
+        configurable: false,
+        writable: false,
+        value: this.constructor.name,
+      },
+      '$resolver': {
+        enumerable: true,
+        configurable: false,
+        value: getSharedResolver(),
+      },
+    })
+    if (args.length > 0) {
+      const resolvables = Array.prototype.slice.call((args[0] instanceof Array) ? args[0] : args)
       const self = this
-      this.getResolver().resolve(resolvables, function() {
-        Object.assign(self, this)
+      this.$resolver.resolve(resolvables, function() {
+        for (let p in this) {
+          if (this.hasOwnProperty(p)) {
+            Object.defineProperty(self, `$${p}`, {
+              enumerable: true,
+              configurable: false,
+              writable: false,
+              value: this[p],
+            })
+          }
+        }
       })()
     }
   }
-  
-  getResolver() {
-    return this._resolver;
-  }
 }
-
-export default _injectorInstance

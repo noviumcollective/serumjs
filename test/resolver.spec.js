@@ -1,4 +1,4 @@
-import Resolver, { Service } from '../lib'
+import Resolver, { Service } from '../src'
 import { MockService, AnotherMockService } from './fixtures'
 
 describe('Resolver tests', () => {
@@ -118,12 +118,12 @@ describe('Resolver tests', () => {
     testFunc(1, 2)
   })
 
-  it('should throw an error if services are not provided to Resolver.resolve', function() {
-    const noop = function() { }
-    expect(() => {
-      Resolver.resolve(noop)
-    }).toThrow()
-  })
+  // it('should throw an error if services are not provided to Resolver.resolve', function() {
+  //   const noop = function() { }
+  //   expect(() => {
+  //     Resolver.resolve(noop)
+  //   }).toThrow()
+  // })
 
   it('should apply additional scope to resolved function when provided', () => {
     const additionalScope = {

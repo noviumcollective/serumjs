@@ -23,7 +23,7 @@ class ShoppingCart extends Service {
    }
 
    checkOut() {
-      this.DeliveryService.deliver('🍪🍪🍪🍪', 4, 'Nick\'s home address')
+      this.$DeliveryService.deliver('🍪🍪🍪🍪', 4, 'Nick\'s home address')
    }
 }
 
@@ -34,7 +34,7 @@ ShoppingCart.checkOut()
 Alternatively, you may also inject dependencies in functions using `Resolver.resolve`:
 ```JavaScript
 const doSomething = Resolver.resolve(['DeliveryService'], function(additionalParams) {
-   this.DeliveryService.deliver('🎮', 2, 'Jim\'s work address')
+   this.DeliveryService.deliver('🎮', 2, 'Jim\'s work address') //<-- there is no $ before service name
    console.log(additionalParams)
 })
 
